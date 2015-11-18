@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 	}
 	filestream->_(destroy)(filestream);
 	getchar();
-	getchar();
+	
    return 0;
 }
 

@@ -16,6 +16,7 @@ void Object_destroy(void *self)
 void Object_describe(void *self)
 {
 	Object *obj = self;
+	
 	printf("%s.\n", obj->description);
 }
 
