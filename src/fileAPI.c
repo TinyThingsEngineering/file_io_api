@@ -37,6 +37,7 @@ void fileIO_destroy(void *self)
         if(obj->description) free(obj->description);
         free(obj);
     }
+	printf("file stream closed.\n");
 	
 }
 
@@ -62,7 +63,7 @@ void *fileIO_input(void *self)
 		die("failed to allocate memory");
 		return NULL;
 	}
-	printf("here");
+	
 	return fileio;
 }
 
