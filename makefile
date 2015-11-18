@@ -1,22 +1,9 @@
 # ------------------------------------------------
 # Makefile for fileIO project
 # ------------------------------------------------
-ifneq (,$(findstring /cygdrive/,$(PATH)))
-    UNAME := Cygwin
-	TARGET   = bin/fileO.exe
-	@echo "cy"
-else
-ifneq (,$(findstring WINDOWS,$(PATH)))
-    UNAME := Windows
-	TARGET   = bin/fileO.exe
-	@echo "win"
-else
-    UNAME := $(shell uname -s)
-	TARGET   = bin/fileO
-endif
-endif
+
 # project name (generate executable with this name)
-#TARGET   = bin/fileO.exe
+TARGET   = bin/fileO
 
 # compiler
 CC       = gcc
@@ -53,6 +40,6 @@ $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
 
 # cleans object files and executable binaries	
 clean:
-	rm $(OBJECTS) $(TARGET)
+	rm $(OBJECTS) $(TARGET) 
 	@echo "Executable removed objects cleaned!"
 
