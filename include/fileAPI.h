@@ -13,10 +13,10 @@ struct fileIO{
 
 typedef struct fileIO fileIO;
 
-
 int fileIO_init(void *self);
 void fileIO_destroy(void *self);
 void *fileIO_input(void *self);
 
+int stream_file(fileIO *stream);
 
 #endif

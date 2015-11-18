@@ -67,5 +67,22 @@ void *fileIO_input(void *self)
 	return fileio;
 }
 
+int stream_file(fileIO *stream)
+{
+	size_t read = 0; 
+    read = fread(stream->buffer, sizeof(unsigned char), stream->sz, stream->in);
+	if(read == (int)stream->sz){
+		fwrite(stream->buffer, sizeof(unsigned char), stream->sz, stream->out);
+	}else{
+		if(read > 1 || read == 0){
+			printf("not enough bytes, copying only %d byte(s)\n",read-1);
+		}
+		fwrite(stream->buffer, sizeof(unsigned char), read, stream->out);
+		return 0;
+	}
+    
+    return 1;
+}
+
 
 
