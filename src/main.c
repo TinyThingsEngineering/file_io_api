@@ -11,7 +11,7 @@ Object fileIOProto = {
 
 int main(int argc, char *argv[])
 {
-    // simple way to setup the randomness
+    //open fileIO object name it hello
     fileIO *filestream = NEW(fileIO,"hello");
 	while(stream_file(filestream)){
 		
