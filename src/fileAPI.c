@@ -4,6 +4,7 @@
 #include <string.h>
 #include "include/fileAPI.h"
 
+//#define USERIO
 
 void die(const char *message)
 {
@@ -43,26 +44,44 @@ void fileIO_destroy(void *self)
 
 void *fileIO_input(void *self)
 {
+	
 	fileIO *fileio = self;
-	char buffer[100];
-	printf("specify input file:");
-	scanf("%s", buffer);
-	fileio->in = fopen(buffer,"r");
-	if(!fileio->in) die("Failed to open input file");
+	#ifdef USERIO
+		char buffer[100];
+		printf("specify input file:");
+		scanf("%s", buffer);
+		fileio->in = fopen(buffer,"r");
+		if(!fileio->in) die("Failed to open input file");
+		
+		printf("specify output file:");
+		scanf("%s", buffer);
+		fileio->out = fopen(buffer, "w");
+		if(!fileio->out) die("Failed to open output file");
+		
+		printf("specify buffer size:");
+		scanf("%d", &fileio->sz);
+		fileio->buffer = malloc(sizeof(char) * fileio->sz);
+		if(fileio->buffer==NULL){
+			free(fileio->buffer);
+			die("failed to allocate memory");
+			return NULL;
+		}
 	
-	printf("specify output file:");
-	scanf("%s", buffer);
-	fileio->out = fopen(buffer, "w");
-	if(!fileio->out) die("Failed to open output file");
-	
-	printf("specify buffer size:");
-	scanf("%d", &fileio->sz);
-	fileio->buffer = malloc(sizeof(char) * fileio->sz);
-	if(fileio->buffer==NULL){
-		free(fileio->buffer);
-		die("failed to allocate memory");
-		return NULL;
-	}
+	#else
+		fileio->in = fopen(fileio->_(description[1]),"r");
+		if(!fileio->in) die("Failed to open input file");
+		
+		fileio->out = fopen(fileio->_(description[2]), "w");
+		if(!fileio->out) die("Failed to open output file");
+		
+		fileio->sz = atoi(fileio->_(description[3]));
+		fileio->buffer = malloc(sizeof(char) * fileio->sz);
+		if(fileio->buffer==NULL){
+			free(fileio->buffer);
+			die("failed to allocate memory");
+			return NULL;
+		}
+	#endif
 	
 	return fileio;
 }
@@ -70,6 +89,7 @@ void *fileIO_input(void *self)
 int stream_file(fileIO *stream)
 {
 	size_t read = 0; 
+	
     read = fread(stream->buffer, sizeof(unsigned char), stream->sz, stream->in);
 	if(read == (int)stream->sz){
 		fwrite(stream->buffer, sizeof(unsigned char), stream->sz, stream->out);

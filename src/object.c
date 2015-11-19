@@ -17,7 +17,7 @@ void Object_describe(void *self)
 {
 	Object *obj = self;
 	
-	printf("%s.\n", obj->description);
+	printf("%s.\n", obj->description[0]);
 }
 
 void *Object_input(void *self)
@@ -31,8 +31,9 @@ int Object_init(void *self)
 	return 1;
 }
 
-void *Object_new(size_t size, Object proto, char *description)
+void *Object_new(size_t size, Object proto, char *description[4])
 {
+	int i = 0;
 	if(!proto.init) proto.init = Object_init;
 	if(!proto.describe) proto.describe = Object_describe;
 	if(!proto.destroy) proto.destroy = Object_destroy;
@@ -40,11 +41,15 @@ void *Object_new(size_t size, Object proto, char *description)
 	Object *el = calloc(1, size);
 	*el = proto;
 	
-	el->description = strdup(description);
+	for( i = 0;i<4;i++){
+		el->description[i] = strdup(description[i]);
+	}
+	//el->description = (description);
 	
 	if(!el->init(el)){
 		el->destroy(el);
 		return NULL;
+		
 	}else{
 		return el;
 	}

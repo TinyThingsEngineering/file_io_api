@@ -11,8 +11,13 @@ Object fileIOProto = {
 
 int main(int argc, char *argv[])
 {
-    //open fileIO object name it hello
-    fileIO *filestream = NEW(fileIO,"hello");
+    //specify object descirption, input file, output file for one object multiple
+	//can be created (multiple file streams at once)
+	//if you want user defined input instead toggle "USERIO" in fileAPI.c
+	char *desc_ifile_ofile_sz[] = {"hello", "hello.txt", "hello_out.txt", "4"};
+	
+	//open fileIO object name it hello
+    fileIO *filestream = NEW(fileIO,desc_ifile_ofile_sz);
 	while(stream_file(filestream)){
 		
 	}
