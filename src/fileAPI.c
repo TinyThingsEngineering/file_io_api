@@ -27,6 +27,7 @@ int fileIO_init(void *self)
 
 void fileIO_destroy(void *self)
 {
+	int i = 0;
 	fileIO *fileio = self;
 	fclose(fileio->in);
 	fclose(fileio->out);
@@ -35,7 +36,10 @@ void fileIO_destroy(void *self)
 	Object *obj = self;
 
     if(obj) {
-        if(obj->description) free(obj->description);
+        if(obj->description) 
+		for(i=0;i<4;i++){
+			free(obj->description[i]);
+		}
         free(obj);
     }
 	printf("file stream closed.\n");
